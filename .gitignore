@@ -52,6 +52,9 @@ coverage.xml
 .pytest_cache/
 cover/
 
+# Human-aid files
+/dev.py
+
 # Translations
 *.mo
 *.pot
