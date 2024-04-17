@@ -13,7 +13,7 @@ from spotify_history_capturer.spotify import conf
 STATE_STRING_CHARS = string.ascii_letters + string.digits
 
 # TODO: Make correct state implementation (e.g. storing it in a session)
-def generate_state_string(length: int):
+def generate_state_value(length: int):
     return ''.join(random.choices(STATE_STRING_CHARS, k=length))
 
 @dataclass
@@ -30,14 +30,14 @@ class _TokenExchangeResponse:
         d['scope'] = d['scope'].split(' ')
         return _TokenExchangeResponse(**d)
 
-def create_authorization_url(redirect_uri: str, scope: Iterable['str'] | str):
+def create_authorization_url(redirect_uri: str, scope: Iterable['str'] | str, state_value: str):
     if isinstance(scope, Iterable):
         scope = ' '.join(scope)
     qs = {
         'client_id': conf.CLIENT_ID,
         'response_type': 'code',
         'redirect_uri': redirect_uri,
-        'state': generate_state_string(16),
+        'state': state_value,
         'scope': scope
     }
     return f'https://{conf.URL_SPOTIFY_ACCOUNT}/authorize?{urllib.parse.urlencode(qs)}'

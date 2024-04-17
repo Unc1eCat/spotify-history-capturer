@@ -1,7 +1,8 @@
 from typing import Set
+from . import conf
 
 
-TOTAL_SCOPE_NEEDED = set()
+conf.TOTAL_SCOPE_NEEDED = set()
 ''' Stores scopes that all objects decorated with `needs_scope` require. '''
 
 def needs_scope(*scope):
@@ -18,6 +19,6 @@ def needs_scope(*scope):
                 raise ValueError('needs_scope applied to a function that has "needed_spotify_scope" attribute of incorrect type.')
         else:
             obj.needed_spotify_scope = scope
-        TOTAL_SCOPE_NEEDED.update(scope)
-        return scope
+        conf.TOTAL_SCOPE_NEEDED.update(scope)
+        return obj
     return deco
